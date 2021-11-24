@@ -2,10 +2,6 @@ Enviroment
 	Destructibles
 	Animated Elements
 	Background
-Player
-	Sprites
-	Animation
-	Managment
 Enemies
 	Gunner Sprites
 	Gunner firing

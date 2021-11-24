@@ -24,6 +24,7 @@ public class PlayerAnimation : MonoBehaviour
             if (firstFrameDash)
             {
                 sr.sprite = dashSprite;
+                sr.flipX = false;
                 sr.flipY = pm.rb.velocity.x < 0;
                 float targetX = pm.rb.velocity.normalized.x;
                 float targetY = pm.rb.velocity.normalized.y;
@@ -34,7 +35,10 @@ public class PlayerAnimation : MonoBehaviour
         else
         {
             firstFrameDash = true;
-            sr.flipX = false;
+            if(pm.rb.velocity.x != 0)
+            {
+               sr.flipX = pm.rb.velocity.x < 0;
+            }
             sr.flipY = false;
             transform.rotation = Quaternion.identity;
             if(pm.rb.velocity.y == 0)
