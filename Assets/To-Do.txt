@@ -1,6 +1,7 @@
 Enviroment
 	Destructibles
 	Animated Elements
+	Background
 Player
 	Sprites
 	Animation
@@ -8,3 +9,4 @@ Player
 Enemies
 	Gunner Sprites
 	Gunner firing
+Sound
