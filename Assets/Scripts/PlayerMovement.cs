@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.PostProcessing;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -57,6 +59,12 @@ public class PlayerMovement : MonoBehaviour
     public bool dashing;
     private Vector2 defaultColliderSize;
     public Vector2 dashingColliderSize;
+    public PostProcessVolume dashEffects;
+    public float effectsSpeed;
+    public Transform enemyEmpty;
+    public Transform enemyLocatorEmpty;
+    public GameObject enemyLocator;
+    private bool enemyLocatorsInstantited;
 
     const float horizontalDrag = 0.02f;
     const float gravity = 0.2f;
@@ -68,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
     public float dashTime = 0.5f;
     private float timeLeft;
     public LayerMask ground;
+    
 
     void Start()
     {
@@ -79,9 +88,30 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Update()
-    {
+    {      
         if (mouseHeldDown)
         {
+            dashEffects.weight = Mathf.Lerp(dashEffects.weight, 1, Time.deltaTime * effectsSpeed);
+            //Enemy Locator Creation
+            if (!enemyLocatorsInstantited)
+            {
+                int numOfTargets = 0;
+                List<int> chosenInts = new List<int>();
+                while (numOfTargets < 3 && numOfTargets < enemyEmpty.childCount)
+                {
+                    int chosenInt = Random.Range(0, enemyEmpty.childCount);
+                    if (!chosenInts.Contains(chosenInt))
+                    {
+                        Transform currentTarget = enemyEmpty.GetChild(chosenInt);
+                        GameObject currentObject = Instantiate(enemyLocator, enemyLocatorEmpty);
+                        currentObject.transform.localPosition = Vector3.zero;
+                        currentObject.GetComponent<TrackPos>().position = currentTarget.position;
+                        chosenInts.Add(chosenInt);
+                        numOfTargets++;
+                    }
+                }
+                enemyLocatorsInstantited = true;
+            }
             Time.timeScale = slowedDownTimeScale;
             Time.fixedDeltaTime = normalFixedDeltaTime / (1/slowedDownTimeScale);
             //Find vector between storedMousePos and the current mouse position
@@ -89,6 +119,15 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            if (enemyLocatorsInstantited)
+            {
+                foreach (Transform child in enemyLocatorEmpty)
+                {
+                    Destroy(child.gameObject);
+                }
+                enemyLocatorsInstantited = false;
+            }
+            dashEffects.weight = 0;
             Time.timeScale = 1f;
             Time.fixedDeltaTime = normalFixedDeltaTime;
             if (targetDirection != Vector2.zero)
