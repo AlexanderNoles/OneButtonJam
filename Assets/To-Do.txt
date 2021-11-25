@@ -1,8 +1,5 @@
 Enviroment
 	Destructibles
-	Animated Elements
+	Animated Elements [Low Priority]
 	Background
-Enemies
-	Gunner Sprites
-	Gunner firing
 Sound

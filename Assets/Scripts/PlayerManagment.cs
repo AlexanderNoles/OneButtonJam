@@ -28,6 +28,6 @@ public class PlayerManagment : MonoBehaviour
 
     public static void GameOver()
     {
-
+        Debug.Log("cringe");
     }
 }

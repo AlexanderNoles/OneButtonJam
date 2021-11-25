@@ -89,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {      
-        if (mouseHeldDown)
+        if (mouseHeldDown && !dashing)
         {
             dashEffects.weight = Mathf.Lerp(dashEffects.weight, 1, Time.deltaTime * effectsSpeed);
             //Enemy Locator Creation
@@ -162,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!dashing)
         {
-            gameObject.layer = 0;
+            gameObject.layer = 12;
             bc2D.size = defaultColliderSize;
             if (!grounded)
             {
@@ -178,6 +178,15 @@ public class PlayerMovement : MonoBehaviour
         {
             bc2D.size = dashingColliderSize;
             gameObject.layer = 9;
+            //EnemyKillCheck
+            Collider2D[] hits = Physics2D.OverlapBoxAll(transform.position,new Vector2(1,1),0);
+            foreach(Collider2D hit in hits)
+            {
+                if (hit.gameObject.CompareTag("Enemy"))
+                {
+                    hit.SendMessage("Die");
+                }
+            }
         }
     }
 
