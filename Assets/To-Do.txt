@@ -4,7 +4,6 @@ Enviroment
 Sound
 Timer
 Player Ability limit?
-Win Condition + Good Ending
 
 Alternate dash indicator effect:
             if(currentMagnitude > 2)

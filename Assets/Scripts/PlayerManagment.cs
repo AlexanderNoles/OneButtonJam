@@ -1,22 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerManagment : MonoBehaviour
 {
     public static GameObject _instance;
+    public static PlayerManagment managmentInstance;
     public static int maxHealth = 1;
     public static int currentHealth;
     public static bool gameOver = false;
     public static bool levelProperlyStarted = false;
+    public static float finalTime;
     public float timeToLevelStart = 3f;
     public GameObject gameOverEffect;
     public GameObject gameWonEffect;
+    public TextMeshProUGUI timeText;
 
     private void Awake()
     {
         currentHealth = maxHealth;
         _instance = gameObject;
+        managmentInstance = this;
     }
 
     private void Update()
@@ -45,7 +50,7 @@ public class PlayerManagment : MonoBehaviour
         if (!gameOver)
         {
             GameEnded();
-            _instance.GetComponent<PlayerManagment>().gameOverEffect.SetActive(true);
+            managmentInstance.gameOverEffect.SetActive(true);
         }     
     }
 
@@ -54,13 +59,15 @@ public class PlayerManagment : MonoBehaviour
         if(!gameOver)
         {
             GameEnded();
-            _instance.GetComponent<PlayerManagment>().gameWonEffect.SetActive(true);
+            managmentInstance.gameWonEffect.SetActive(true);
+            managmentInstance.timeText.text = $"Final Time: {finalTime.ToString().Substring(0,finalTime.ToString().IndexOf(".")+3)}";
         }      
     }
 
     private static void GameEnded()
     {
         gameOver = true;
+        finalTime = TimerControl.currentTime;
         _instance.GetComponent<SpriteRenderer>().enabled = false;
     }
 }
