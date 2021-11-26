@@ -11,6 +11,7 @@ public class PlayerManagment : MonoBehaviour
     public static bool levelProperlyStarted = false;
     public float timeToLevelStart = 3f;
     public GameObject gameOverEffect;
+    public GameObject gameWonEffect;
 
     private void Awake()
     {
@@ -41,8 +42,25 @@ public class PlayerManagment : MonoBehaviour
 
     public static void GameOver()
     {
+        if (!gameOver)
+        {
+            GameEnded();
+            _instance.GetComponent<PlayerManagment>().gameOverEffect.SetActive(true);
+        }     
+    }
+
+    public static void GameWon()
+    {
+        if(!gameOver)
+        {
+            GameEnded();
+            _instance.GetComponent<PlayerManagment>().gameWonEffect.SetActive(true);
+        }      
+    }
+
+    private static void GameEnded()
+    {
         gameOver = true;
         _instance.GetComponent<SpriteRenderer>().enabled = false;
-        _instance.GetComponent<PlayerManagment>().gameOverEffect.SetActive(true);
     }
 }

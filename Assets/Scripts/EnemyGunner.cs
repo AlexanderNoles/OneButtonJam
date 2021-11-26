@@ -14,7 +14,6 @@ public class EnemyGunner : MonoBehaviour
     public float timeBetweenShots = 0.3f;
     private float timeLeft;
     public GameObject bulletEmpty;
-    public GameObject bullet;
     public float bulletSpeed = 4f;
     private Vector3 savedPos;
 
@@ -56,7 +55,7 @@ public class EnemyGunner : MonoBehaviour
                     if (timeLeft < 0)
                     {
                         //Fire
-                        GameObject currentBullet = Instantiate(bullet, bulletEmpty.transform);
+                        GameObject currentBullet = (GameObject)Instantiate(Resources.Load("Bullet"), bulletEmpty.transform);
                         currentBullet.transform.position = bulletEmpty.transform.position;
                         currentBullet.transform.rotation = ExtraFunctions.currentRotation(bulletEmpty.transform.position, transform.position);
                         currentBullet.GetComponent<BulletControl>().velVector = -(transform.position - bulletEmpty.transform.position).normalized * bulletSpeed;

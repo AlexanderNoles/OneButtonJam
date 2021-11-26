@@ -4,3 +4,25 @@ Enviroment
 Sound
 Timer
 Player Ability limit?
+Win Condition + Good Ending
+
+Alternate dash indicator effect:
+            if(currentMagnitude > 2)
+            {
+                dashDirectionIndicator.transform.localScale = new Vector3(1 + Mathf.Clamp((currentMagnitude-2)/4,0,0.25f),1,1);
+            }
+            else
+            {
+                dashDirectionIndicator.transform.localScale = Vector3.one;
+            }
+            float shakeIntensity;
+            if(currentMagnitude > 4)
+            {
+                shakeIntensity = currentMagnitude - 4;
+            }
+            else
+            {
+                shakeIntensity = 0;
+            }
+            dashDirectionIndicator.transform.rotation = ExtraFunctions.currentRotation(transform.position + new Vector3(targetDirection.x, targetDirection.y).normalized, transform.position);
+            dashDirectionIndicator.transform.localPosition = new Vector3(0,Mathf.Cos(Time.time * shakeSpeed * 100f) * (shakeIntensity/12f),0);

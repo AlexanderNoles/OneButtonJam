@@ -63,7 +63,6 @@ public class PlayerMovement : MonoBehaviour
     public float effectsSpeed;
     public Transform enemyEmpty;
     public Transform enemyLocatorEmpty;
-    public GameObject enemyLocator;
     public GameObject dashDirectionIndicator;
     private bool enemyLocatorsInstantited;
 
@@ -104,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
                     if (!chosenInts.Contains(chosenInt))
                     {
                         Transform currentTarget = enemyEmpty.GetChild(chosenInt);
-                        GameObject currentObject = Instantiate(enemyLocator, enemyLocatorEmpty);
+                        GameObject currentObject = (GameObject)Instantiate(Resources.Load("EnemyLocator"), enemyLocatorEmpty);
                         currentObject.transform.localPosition = Vector3.zero;
                         currentObject.GetComponent<TrackPos>().position = currentTarget.position;
                         chosenInts.Add(chosenInt);
@@ -117,6 +116,14 @@ public class PlayerMovement : MonoBehaviour
             Time.timeScale = slowedDownTimeScale;
             Time.fixedDeltaTime = normalFixedDeltaTime / (1/slowedDownTimeScale);
             targetDirection = Vector2.ClampMagnitude(mousePosInScreenSpace - new Vector2(transform.position.x,transform.position.y), 5f);
+            if(targetDirection.sqrMagnitude > 16)
+            {
+                dashDirectionIndicator.transform.localScale = new Vector3(targetDirection.magnitude/4,1,1);
+            }
+            else
+            {
+                dashDirectionIndicator.transform.localScale = Vector3.one;
+            }
             dashDirectionIndicator.transform.rotation = ExtraFunctions.currentRotation(transform.position+new Vector3(targetDirection.x,targetDirection.y).normalized,transform.position);
         }
         else
