@@ -24,7 +24,13 @@ public class CameraManager : MonoBehaviour
 
     private void Update()
     {
-        transform.position = new Vector3(Mathf.Clamp(target.position.x,-leftBound + width/2, rightBound - width / 2),Mathf.Clamp(target.position.y,-bottomBound + height/2,topBound - height/2),-10);
+        if (!PlayerManagment.gameOver)
+        {
+            transform.position = new Vector3(
+                Mathf.Clamp(target.position.x, -leftBound + width / 2, rightBound - width / 2), 
+                Mathf.Clamp(target.position.y, -bottomBound + height / 2, topBound - height / 2),
+                -10);
+        }    
     }
 
     void updateCameraDimensions()

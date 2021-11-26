@@ -7,6 +7,8 @@ public class PlayerManagment : MonoBehaviour
     public static GameObject _instance;
     public static int maxHealth = 1;
     public static int currentHealth;
+    public static bool gameOver = false;
+    public GameObject gameOverEffect;
 
     private void Awake()
     {
@@ -28,6 +30,8 @@ public class PlayerManagment : MonoBehaviour
 
     public static void GameOver()
     {
-        
+        gameOver = true;
+        _instance.GetComponent<SpriteRenderer>().enabled = false;
+        _instance.GetComponent<PlayerManagment>().gameOverEffect.SetActive(true);
     }
 }

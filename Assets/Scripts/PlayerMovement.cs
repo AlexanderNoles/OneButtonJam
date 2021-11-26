@@ -64,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform enemyEmpty;
     public Transform enemyLocatorEmpty;
     public GameObject enemyLocator;
+    public GameObject dashDirectionIndicator;
     private bool enemyLocatorsInstantited;
 
     const float horizontalDrag = 0.02f;
@@ -112,13 +113,15 @@ public class PlayerMovement : MonoBehaviour
                 }
                 enemyLocatorsInstantited = true;
             }
+            dashDirectionIndicator.SetActive(true);
             Time.timeScale = slowedDownTimeScale;
             Time.fixedDeltaTime = normalFixedDeltaTime / (1/slowedDownTimeScale);
-            //Find vector between storedMousePos and the current mouse position
             targetDirection = Vector2.ClampMagnitude(mousePosInScreenSpace - new Vector2(transform.position.x,transform.position.y), 5f);
+            dashDirectionIndicator.transform.rotation = ExtraFunctions.currentRotation(transform.position+new Vector3(targetDirection.x,targetDirection.y).normalized,transform.position);
         }
         else
         {
+            dashDirectionIndicator.SetActive(false);
             if (enemyLocatorsInstantited)
             {
                 foreach (Transform child in enemyLocatorEmpty)

@@ -58,7 +58,7 @@ public class EnemyGunner : MonoBehaviour
                         //Fire
                         GameObject currentBullet = Instantiate(bullet, bulletEmpty.transform);
                         currentBullet.transform.position = bulletEmpty.transform.position;
-                        currentBullet.transform.rotation = currentRotation(bulletEmpty.transform.position, transform.position);
+                        currentBullet.transform.rotation = ExtraFunctions.currentRotation(bulletEmpty.transform.position, transform.position);
                         currentBullet.GetComponent<BulletControl>().velVector = -(transform.position - bulletEmpty.transform.position).normalized * bulletSpeed;
                         currentBullet.GetComponent<BulletControl>().original = false;
                         timeLeft = timeBetweenShots;
@@ -74,13 +74,6 @@ public class EnemyGunner : MonoBehaviour
         {
             timeLeft = timeBetweenShots;
         }
-    }
-
-    private Quaternion currentRotation(Vector3 targetPos, Vector3 currentPos)
-    {
-        Vector3 normalizedPlayerVector = (targetPos - currentPos).normalized;
-        float rot_z = Mathf.Atan2(normalizedPlayerVector.y,normalizedPlayerVector.x) * Mathf.Rad2Deg;
-        return Quaternion.Euler(0f,0f,rot_z);
     }
 
     private void setBulletEmptyPos(bool flipped)
