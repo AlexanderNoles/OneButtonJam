@@ -8,6 +8,8 @@ public class PlayerManagment : MonoBehaviour
     public static int maxHealth = 1;
     public static int currentHealth;
     public static bool gameOver = false;
+    public static bool levelProperlyStarted = false;
+    public float timeToLevelStart = 3f;
     public GameObject gameOverEffect;
 
     private void Awake()
@@ -25,6 +27,15 @@ public class PlayerManagment : MonoBehaviour
         else if(currentHealth <= 0)
         {
             GameOver();
+        }
+
+        if(timeToLevelStart < 0)
+        {
+            levelProperlyStarted = true;
+        }
+        else
+        {
+            timeToLevelStart -= Time.deltaTime;
         }
     }
 

@@ -90,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {      
-        if (mouseHeldDown && !dashing)
+        if (mouseHeldDown && !dashing && PlayerManagment.levelProperlyStarted)
         {
             dashEffects.weight = Mathf.Lerp(dashEffects.weight, 1, Time.deltaTime * effectsSpeed);
             //Enemy Locator Creation

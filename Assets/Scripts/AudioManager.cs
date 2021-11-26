@@ -29,6 +29,11 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
+        if(!loadedSound.playAfterGameOver && PlayerManagment.gameOver)
+        {
+            return;
+        }
+
         AudioSource newAudioSource = ((GameObject)Instantiate(Resources.Load("SoundEmpty"),_instance.gameObject.transform)).GetComponent<AudioSource>();
         newAudioSource.transform.position = _instance.gameObject.transform.position;
         newAudioSource.clip = loadedSound.clip;
@@ -45,4 +50,5 @@ public class Sound
     public AudioClip clip;
     public float volume;
     public float pitch;
+    public bool playAfterGameOver;
 }
