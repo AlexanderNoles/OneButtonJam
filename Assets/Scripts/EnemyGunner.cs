@@ -29,50 +29,53 @@ public class EnemyGunner : MonoBehaviour
 
     void Update()
     {
-        Vector3 playerVector = PlayerManagment._instance.transform.position - transform.position;
-        if (playerVector.sqrMagnitude < range * range)
+        if (!PlayerManagment.gameOver)
         {
-            //Player within range
-            if (!GroundInBetween(playerVector)) 
+            Vector3 playerVector = PlayerManagment._instance.transform.position - transform.position;
+            if (playerVector.sqrMagnitude < range * range)
             {
-                //No obstacles in the way
-                bool intendedFlip = playerVector.x < 0;
-                if(intendedFlip != sr.flipX)
+                //Player within range
+                if (!GroundInBetween(playerVector))
                 {
-                    if(turningTimeLeft < 0)
+                    //No obstacles in the way
+                    bool intendedFlip = playerVector.x < 0;
+                    if (intendedFlip != sr.flipX)
                     {
-                        sr.flipX = intendedFlip;
+                        if (turningTimeLeft < 0)
+                        {
+                            sr.flipX = intendedFlip;
+                        }
+                        else
+                        {
+                            turningTimeLeft -= Time.deltaTime;
+                        }
                     }
                     else
                     {
-                        turningTimeLeft -= Time.deltaTime;
-                    }
-                }
-                else
-                {
-                    turningTimeLeft = turningTime;
-                    setBulletEmptyPos(sr.flipX);
-                    if (timeLeft < 0)
-                    {
-                        //Fire
-                        GameObject currentBullet = (GameObject)Instantiate(Resources.Load("Bullet"), bulletEmpty.transform);
-                        currentBullet.transform.position = bulletEmpty.transform.position;
-                        currentBullet.transform.rotation = ExtraFunctions.currentRotation(bulletEmpty.transform.position, transform.position);
-                        currentBullet.GetComponent<BulletControl>().velVector = -(transform.position - bulletEmpty.transform.position).normalized * bulletSpeed;
-                        currentBullet.GetComponent<BulletControl>().original = false;
-                        timeLeft = timeBetweenShots;
-                    }
-                    else
-                    {
-                        timeLeft -= Time.deltaTime;
+                        turningTimeLeft = turningTime;
+                        setBulletEmptyPos(sr.flipX);
+                        if (timeLeft < 0)
+                        {
+                            //Fire
+                            GameObject currentBullet = (GameObject)Instantiate(Resources.Load("Bullet"), bulletEmpty.transform);
+                            currentBullet.transform.position = bulletEmpty.transform.position;
+                            currentBullet.transform.rotation = ExtraFunctions.currentRotation(bulletEmpty.transform.position, transform.position);
+                            currentBullet.GetComponent<BulletControl>().velVector = -(transform.position - bulletEmpty.transform.position).normalized * bulletSpeed;
+                            currentBullet.GetComponent<BulletControl>().original = false;
+                            timeLeft = timeBetweenShots;
+                        }
+                        else
+                        {
+                            timeLeft -= Time.deltaTime;
+                        }
                     }
                 }
             }
-        }
-        else
-        {
-            timeLeft = timeBetweenShots;
-        }
+            else
+            {
+                timeLeft = timeBetweenShots;
+            }
+        }      
     }
 
     private void setBulletEmptyPos(bool flipped)

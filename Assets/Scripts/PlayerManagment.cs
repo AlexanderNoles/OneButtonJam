@@ -19,6 +19,8 @@ public class PlayerManagment : MonoBehaviour
 
     private void Awake()
     {
+        gameOver = false;
+        levelProperlyStarted = false;
         currentHealth = maxHealth;
         _instance = gameObject;
         managmentInstance = this;
