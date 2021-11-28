@@ -1,9 +1,5 @@
-Enviroment
-	Destructibles
-	Animated Elements [Low Priority]
 Sound
-Timer
-Player Ability limit?
+Start Screen
 
 Alternate dash indicator effect:
             if(currentMagnitude > 2)
